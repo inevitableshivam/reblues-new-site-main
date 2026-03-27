@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Stack+Sans+Notch:wght@200..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+
+    --card: 0 0% 97%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    --primary: 24 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 0%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 44 100% 68%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 59% 43%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 92%;
+    --input: 0 0% 92%;
+    --ring: 24 100% 50%;
+
+    --radius: 0.5rem;
+
+    /* Reblues custom tokens */
+    --rb-black: 0 0% 0%;
+    --rb-dark-red: 0 59% 43%;
+    --rb-orange: 24 100% 50%;
+    --rb-yellow: 44 100% 68%;
+    --rb-cream: 0 0% 100%;
+    --rb-offwhite: 0 0% 97%;
+    --rb-green: 142 71% 45%;
+
+    --font-display: 'Stack Sans Notch', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+
+    --gradient-cta: linear-gradient(135deg, #FE6B00, #FFD95B);
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    font-family: var(--font-body);
+    @apply bg-background text-foreground antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+
+}
+
+@layer utilities {
+  .text-display-2xl {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+
+  .text-display-xl {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+
+  .text-display-lg {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+
+  .text-display-md {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+
+  .text-display-sm {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+  }
+
+  .text-body-lg {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.65;
+  }
+
+  .text-body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .text-body-sm {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .text-label {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #FE6B00, #FFD95B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-padding {
+    @apply py-[120px] px-[80px] max-md:py-[80px] max-md:px-6 max-sm:py-[60px];
+  }
+
+  .container-rb {
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .bg-rb-cream {
+    background-color: hsl(var(--rb-cream));
+  }
+
+  .bg-rb-offwhite {
+    background-color: hsl(var(--rb-offwhite));
+  }
+
+  .bg-rb-black {
+    background-color: hsl(var(--rb-black));
+  }
+
+  .text-rb-orange {
+    color: hsl(var(--rb-orange));
+  }
+
+  .text-rb-red {
+    color: hsl(var(--rb-dark-red));
+  }
+
+  .text-rb-black {
+    color: hsl(var(--rb-black));
+  }
+
+  .border-rb-subtle {
+    border-color: hsl(0 0% 90%);
+  }
+
+  .glow-cursor {
+    background: radial-gradient(circle 400px at var(--glow-x, 50%) var(--glow-y, 50%), rgba(254,107,0,0.06), transparent);
+  }
+
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+    50% { box-shadow: 0 0 0 8px transparent; }
+  }
+
+  .pulse-dot {
+    animation: pulse-green 2s infinite;
+  }
+}
