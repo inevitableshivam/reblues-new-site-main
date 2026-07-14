@@ -1,30 +1,37 @@
 import rebluesLogoWhite from "@/assets/reblues-logo-white.svg";
+import { useEffect, useState } from "react";
 
 const Footer = () => {
+  const [isPortfolio, setIsPortfolio] = useState(false);
+  useEffect(() => {
+    setIsPortfolio(window.location.pathname.includes("/portfolio"));
+  }, []);
+  const bookCallHref = isPortfolio ? "#portfolio-book-a-call" : "/#book-a-call";
   const columns = [
   {
     title: "PLANS",
     links: [
-      { label: "Signal", href: "#pricing" },
-      { label: "Momentum", href: "#pricing" },
-      { label: "Custom Plan", href: "#pricing" },
-      { label: "Book a Call", href: "#book-a-call" }
+      { label: "Signal", href: "/#pricing" },
+      { label: "Momentum", href: "/#pricing" },
+      { label: "Custom Plan", href: "/#pricing" },
+      { label: "Book a Call", href: bookCallHref }
     ]
   },
   {
     title: "ADD-ONS",
     links: [
-      { label: "Founder Content", href: "#pricing" },
-      { label: "Podcast Production", href: "#pricing" },
-      { label: "View All", href: "#pricing" }
+      { label: "Founder Content", href: "/#pricing" },
+      { label: "Podcast Production", href: "/#pricing" },
+      { label: "View All", href: "/#pricing" }
     ]
   },
   {
     title: "COMPANY",
     links: [
-      { label: "How It Works", href: "#how-it-works" },
-      { label: "Testimonials", href: "#testimonials" },
-      { label: "Contact", href: "#book-a-call" }
+      { label: "How It Works", href: "/#how-it-works" },
+      { label: "Testimonials", href: "/#testimonials" },
+      { label: "Contact", href: bookCallHref },
+      { label: "Portfolio", href: "/portfolio" }
     ]
   }];
 
@@ -49,7 +56,7 @@ const Footer = () => {
                 Video marketing for SaaS.
               </h2>
               <a
-                href="#book-a-call"
+                href={bookCallHref}
                 className="inline-block border border-white/20 bg-white/5 px-10 py-4 font-display font-semibold text-sm text-white uppercase tracking-[0.15em] hover:bg-white hover:text-foreground transition-colors duration-200">
                 BOOK A CALL
               </a>

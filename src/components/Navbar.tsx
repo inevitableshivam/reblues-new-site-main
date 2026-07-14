@@ -14,10 +14,15 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Detect if we're on the portfolio page to use the right anchor
+  const isPortfolio = typeof window !== "undefined" && window.location.pathname.includes("/portfolio");
+  const bookACallHref = isPortfolio ? "#portfolio-book-a-call" : "#book-a-call";
+
   const navLinks = [
-    { name: "How It Works", href: "#how-it-works" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "Pricing", href: "#pricing" }
+    { name: "How It Works", href: "/#how-it-works" },
+    { name: "Testimonials", href: "/#testimonials" },
+    { name: "Pricing", href: "/#pricing" },
+    { name: "Portfolio", href: "/portfolio" }
   ];
 
   const handleNavClick = () => {
@@ -34,7 +39,7 @@ const Navbar = () => {
         }`}
     >
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-20 flex items-center justify-between">
-        <a href="#" className="flex-shrink-0">
+        <a href="/" className="flex-shrink-0">
           <img src={rebluesLogo} alt="Reblues" className="h-6 sm:h-7 w-auto dark:invert dark:brightness-200" />
         </a>
 
@@ -54,7 +59,7 @@ const Navbar = () => {
         {/* Desktop CTA */}
         <div className="hidden lg:flex items-center gap-6">
           <a
-            href="#book-a-call"
+            href={bookACallHref}
             className="font-body font-bold text-[13px] tracking-widest text-primary-foreground bg-primary px-6 py-3 rounded-none hover:brightness-110 transition-all duration-300 uppercase"
           >
             Book a Call
@@ -78,7 +83,7 @@ const Navbar = () => {
               className="w-[280px] sm:w-[320px] bg-background/95 backdrop-blur-xl border-l border-border"
             >
               <div className="flex flex-col gap-6 mt-12">
-                {[...navLinks, { name: "Book a Call", href: "#book-a-call" }].map((link) => (
+                {[...navLinks, { name: "Book a Call", href: bookACallHref }].map((link) => (
                   <a
                     key={link.name}
                     href={link.href}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 36" fill="none" width="160" height="36">
+  <!-- Brand Mark -->
+  <g transform="translate(0, 3) scale(0.1)">
+    <path d="M153 0H294V140H226C185.683 140 153 107.317 153 67V0Z" fill="url(#rb_g0)"/>
+    <path d="M141 0H0V140H68C108.317 140 141 107.317 141 67V0Z" fill="url(#rb_g1)"/>
+    <path d="M153 293H294V153H226C185.683 153 153 185.683 153 226V293Z" fill="url(#rb_g2)"/>
+    <path d="M141 293H0V153H68C108.317 153 141 185.683 141 226V293Z" fill="url(#rb_g3)"/>
+    <defs>
+      <linearGradient id="rb_g0" x1="262.827" y1="28.7112" x2="100.308" y2="122.89" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#FE6B00"/><stop offset="1" stop-color="#FFFDF4"/>
+      </linearGradient>
+      <linearGradient id="rb_g1" x1="31.1735" y1="28.7112" x2="193.692" y2="122.89" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#FE6B00"/><stop offset="1" stop-color="#FFFDF4"/>
+      </linearGradient>
+      <linearGradient id="rb_g2" x1="262.827" y1="264.289" x2="100.308" y2="170.11" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#FE6B00"/><stop offset="1" stop-color="#FFFDF4"/>
+      </linearGradient>
+      <linearGradient id="rb_g3" x1="31.1735" y1="264.289" x2="193.692" y2="170.11" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#FE6B00"/><stop offset="1" stop-color="#FFFDF4"/>
+      </linearGradient>
+    </defs>
+  </g>
+  <!-- Text -->
+  <text x="38" y="24" fill="#FFFDF4" font-family="'Space Grotesk', system-ui, sans-serif" font-weight="700" font-size="20" letter-spacing="-0.02em">Reblues</text>
+</svg>

@@ -201,4 +201,13 @@
   .pulse-dot {
     animation: pulse-green 2s infinite;
   }
+
+  /* Twitter/X embed overrides — force full-width within grid */
+  .twitter-tweet-rendered,
+  twitterwidget,
+  twitter-widget {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
 }

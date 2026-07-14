@@ -1,5 +1,5 @@
-const FooterCTA = () => (
-  <section id="book-a-call" className="bg-background py-24 border-t border-border overflow-hidden">
+const FooterCTA = ({ portfolioId }: { portfolioId?: string } = {}) => (
+  <section id={portfolioId ?? "book-a-call"} className="bg-background py-24 border-t border-border overflow-hidden">
     <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
         
@@ -31,3 +31,4 @@ const FooterCTA = () => (
   </section>
 );
 export default FooterCTA;
+
