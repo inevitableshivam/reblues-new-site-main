@@ -17,9 +17,9 @@ const clientLogos = [
 
 const LogoMarquee = () => {
   return (
-    <section className="bg-background overflow-hidden pt-0 pb-32 md:pb-[25vh] lg:pb-[35vh]">
+    <section className="bg-background overflow-hidden pt-4 pb-16 md:pb-24 lg:pb-32">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 w-full relative">
-        <p className="text-left text-[14px] font-semibold text-muted-foreground mb-8">
+        <p className="text-left text-[14px] font-semibold text-muted-foreground mb-4">
           Trusted by 32+ PLG-focused SaaS companies
         </p>
         

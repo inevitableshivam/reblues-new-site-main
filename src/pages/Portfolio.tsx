@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FooterCTA from "@/components/FooterCTA";
 import TestimonialSection from "@/components/TestimonialSection";
-import { ArrowUp, Play, Sparkles } from "lucide-react";
+import { ArrowUp, Play, Sparkles, Eye } from "lucide-react";
 
 const getYouTubeEmbedUrl = (videoId: string) =>
   `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
@@ -472,17 +472,29 @@ const Portfolio = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             {/* Median — X post embed */}
-            <div className="w-full [&_.twitter-tweet]:!w-full [&_.twitter-tweet]:!max-w-full [&_.twitter-tweet]:!m-0 [&>iframe]:!w-full [&>iframe]:!max-w-full">
-              <blockquote className="twitter-tweet" data-dnt="true" data-theme="light">
-                <p lang="en" dir="ltr">Your feedback is everywhere.<br />Scattered across X, Discord, Slack and Linear. <br /><br />We think it&apos;s time that changed.<br /><br />Introducing Median. <br />The first feedback engine for modern teams. <a href="https://t.co/median">pic.x.com/median</a></p>&mdash; Alby Churven (@albysjourney) <a href="https://x.com/albysjourney/status/2048809398076919849">Loading…</a>
-              </blockquote>
+            <div className="w-full">
+              <div className="w-full [&_.twitter-tweet]:!w-full [&_.twitter-tweet]:!max-w-full [&_.twitter-tweet]:!m-0 [&>iframe]:!w-full [&>iframe]:!max-w-full">
+                <blockquote className="twitter-tweet" data-dnt="true" data-theme="light">
+                  <a href="https://x.com/albysjourney/status/2048809398076919849"></a>
+                </blockquote>
+              </div>
+              <div className="mt-3 flex items-center gap-2 text-gray-500 text-sm px-2">
+                <Eye size={16} />
+                <span className="font-semibold">82.5K views</span>
+              </div>
             </div>
 
             {/* 10x — X post embed */}
-            <div className="w-full [&_.twitter-tweet]:!w-full [&_.twitter-tweet]:!max-w-full [&_.twitter-tweet]:!m-0 [&>iframe]:!w-full [&>iframe]:!max-w-full">
-              <blockquote className="twitter-tweet" data-dnt="true" data-theme="light">
-                <p lang="en" dir="ltr">Building apps in 2026 is like dropshipping in 2016.<br /><br />Introducing <a href="https://t.co/PupI7GAowL">https://t.co/PupI7GAowL</a> — Shopify for apps <a href="https://t.co/10x">pic.x.com/10x</a></p>&mdash; Evan Yadegari (@EvanYadegari) <a href="https://x.com/EvanYadegari/status/2053965603447173585">Loading…</a>
-              </blockquote>
+            <div className="w-full">
+              <div className="w-full [&_.twitter-tweet]:!w-full [&_.twitter-tweet]:!max-w-full [&_.twitter-tweet]:!m-0 [&>iframe]:!w-full [&>iframe]:!max-w-full">
+                <blockquote className="twitter-tweet" data-dnt="true" data-theme="light">
+                  <a href="https://x.com/EvanYadegari/status/2053965603447173585"></a>
+                </blockquote>
+              </div>
+              <div className="mt-3 flex items-center gap-2 text-gray-500 text-sm px-2">
+                <Eye size={16} />
+                <span className="font-semibold">195.5K views</span>
+              </div>
             </div>
           </div>
         </section>

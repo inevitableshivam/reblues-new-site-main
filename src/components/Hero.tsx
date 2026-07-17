@@ -27,7 +27,7 @@ const Hero = () => {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative flex flex-col justify-center pt-32 md:pt-40 lg:pt-48 pb-0 bg-background overflow-hidden"
+      className="relative flex flex-col justify-center pt-12 md:pt-16 lg:pt-20 pb-0 bg-background overflow-hidden"
     >
       <div className="absolute top-0 -left-64 w-[60%] h-[60%] pointer-events-none opacity-40 blur-[120px]"
         style={{ background: "radial-gradient(circle, rgba(254,107,0,0.15) 0%, transparent 60%)" }} />
@@ -68,6 +68,10 @@ const Hero = () => {
           <a href="#how-it-works"
             className="font-display font-semibold text-foreground px-8 py-4 rounded-none border border-border bg-white shadow-sm hover:bg-muted/50 transition-all duration-300 hover:-translate-y-0.5">
             See How It Works
+          </a>
+          <a href="/portfolio"
+            className="font-display font-semibold text-foreground px-8 py-4 rounded-none border border-border bg-white shadow-sm hover:bg-muted/50 transition-all duration-300 hover:-translate-y-0.5">
+            View Portfolio
           </a>
         </div>
 
