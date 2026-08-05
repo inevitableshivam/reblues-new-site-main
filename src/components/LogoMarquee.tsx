@@ -1,18 +1,22 @@
 const clientLogos = [
-  "/logos/Frame 2147258219 1.png",
-  "/logos/Frame 2147258220 1.png",
-  "/logos/Frame 2147258221 1.png",
-  "/logos/Frame 2147258222 1.png",
-  "/logos/Frame 2147258224 1.png",
-  "/logos/Frame 2147258225 1.png",
-  "/logos/Frame 2147258226 1.png",
-  "/logos/Frame 2147258227 1.png",
-  "/logos/Frame 2147258228 1.png",
-  "/logos/Frame 2147258230 1.png",
-  "/logos/Frame 2147258231 1.png",
-  "/logos/Frame 2147258232 1.png",
-  "/logos/White Alt 1.png",
-  "/logos/image 2169 1.png"
+  { src: "/logos/openfort.png", alt: "Openfort" },
+  { src: "/logos/leadcrm_io.png", alt: "LeadCRM.io" },
+  { src: "/logos/lemmino.png", alt: "Lemmino" },
+  { src: "/logos/genlook.png", alt: "GenLook" },
+  { src: "/logos/buyfromchina_ca.png", alt: "BuyFromChina.ca" },
+  { src: "/logos/sheen_ai.png", alt: "Sheen.ai" },
+  { src: "/logos/pillir.png", alt: "Pillir" },
+  { src: "/logos/osource.png", alt: "Osource" },
+  { src: "/logos/magical_cx.png", alt: "Magical CX" },
+  { src: "/logos/arqia.png", alt: "Arqia" },
+  { src: "/logos/salesstack.png", alt: "SalesStack" },
+  { src: "/logos/pagepilot.png", alt: "PagePilot" },
+  { src: "/logos/upflow.png", alt: "Upflow" },
+  { src: "/logos/prospectoo.png", alt: "Prospectoo" },
+  { src: "/logos/median.png", alt: "Median" },
+  { src: "/logos/opsvara.png", alt: "Opsvara" },
+  { src: "/logos/farao.png", alt: "Farao" },
+  { src: "/logos/10x.png", alt: "10x" },
 ];
 
 const LogoMarquee = () => {
@@ -31,8 +35,8 @@ const LogoMarquee = () => {
             style={{ width: "fit-content" }}
           >
             {[...clientLogos, ...clientLogos, ...clientLogos].map((logo, i) => (
-              <div key={i} className="flex-shrink-0 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300 grayscale hover:grayscale-0">
-                <img src={logo} alt="Client Logo" className="h-6 md:h-8 w-auto object-contain max-w-[120px]" loading="lazy" />
+              <div key={i} className="flex-shrink-0 flex items-center justify-center">
+                <img src={logo.src} alt={logo.alt} className="h-6 md:h-8 w-auto object-contain max-w-[120px]" loading="lazy" />
               </div>
             ))}
           </div>

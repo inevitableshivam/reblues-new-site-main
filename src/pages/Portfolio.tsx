@@ -375,7 +375,7 @@ const Portfolio = () => {
                   alt={logo.alt} 
                   className={`${
                     logo.size === "sm" ? "max-h-4" : logo.size === "lg" ? "max-h-12" : "max-h-8"
-                  } max-w-full object-contain filter grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all duration-300`} 
+                  } max-w-full object-contain transition-all duration-300`} 
                 />
               </div>
             ))}
