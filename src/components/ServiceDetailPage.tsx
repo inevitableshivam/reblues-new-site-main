@@ -10,6 +10,7 @@ import BookingModal from "./BookingModal";
 import Footer from "./Footer";
 import ServiceMenu from "./ServiceMenu";
 import TopHeader from "./TopHeader";
+import MobileHeroArtwork from "./MobileHeroArtwork";
 
 export type ServicePageContent = {
   eyebrow: string;
@@ -78,10 +79,16 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
             <div aria-hidden="true" className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 font-body text-[10px] font-medium uppercase tracking-[0.14em] text-neutral-300">
               Scroll <ArrowDown size={12} strokeWidth={1.5} />
             </div>
+            {(content.launchArtwork || content.productEducationArtwork) && (
+              <MobileHeroArtwork
+                left={content.launchArtwork ? <AsciiDockingStationLeft /> : <AsciiCockpitLeft />}
+                right={content.launchArtwork ? <AsciiSpaceshipRight /> : <AsciiCockpitRight />}
+              />
+            )}
             <div className="relative hidden overflow-hidden border-r border-neutral-200 lg:col-span-3 lg:flex">
               {content.launchArtwork ? <AsciiDockingStationLeft /> : content.productEducationArtwork ? <AsciiCockpitLeft /> : null}
             </div>
-            <div className="flex items-center justify-center px-6 py-16 text-center sm:px-10 lg:col-span-6">
+            <div className="relative z-10 flex items-center justify-center px-6 py-16 text-center sm:px-10 lg:col-span-6">
               <div className="flex max-w-xl flex-col items-center">
                 <p className="mb-4 text-xs font-medium text-neutral-500">{content.eyebrow}</p>
                 <h1 className="text-3xl font-normal leading-[1.14] tracking-tight text-neutral-900 sm:text-4xl lg:text-[44px]">

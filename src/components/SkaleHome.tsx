@@ -5,6 +5,7 @@ import AsciiArcherRight from "./AsciiArcherRight";
 import BookingModal from "./BookingModal";
 import ServiceMenu from "./ServiceMenu";
 import TopHeader from "./TopHeader";
+import MobileHeroArtwork from "./MobileHeroArtwork";
 
 // 12 Client logos (6 logos per row, 2 rows)
 const clientLogos = [
@@ -41,6 +42,7 @@ export const SkaleHome: React.FC = () => {
         <span aria-hidden="true" className="absolute left-3/4 top-0 z-20 hidden -translate-x-1/2 -translate-y-1/2 bg-white px-1 text-base font-medium leading-none text-[#FE6B00] lg:block">+</span>
         <span aria-hidden="true" className="absolute bottom-0 left-1/4 z-20 hidden -translate-x-1/2 translate-y-1/2 bg-white px-1 text-base font-medium leading-none text-[#FE6B00] lg:block">+</span>
         <span aria-hidden="true" className="absolute bottom-0 left-3/4 z-20 hidden -translate-x-1/2 translate-y-1/2 bg-white px-1 text-base font-medium leading-none text-[#FE6B00] lg:block">+</span>
+        <MobileHeroArtwork left={<AsciiArcherLeft />} right={<AsciiArcherRight />} />
         
         {/* LEFT COLUMN: ASCII Archer Left */}
         <div className="hidden lg:flex lg:col-span-3 border-r border-neutral-200/70 relative items-center justify-center bg-white overflow-hidden p-2">
@@ -49,7 +51,7 @@ export const SkaleHome: React.FC = () => {
         </div>
 
         {/* CENTER COLUMN: Main Content */}
-        <div className="col-span-1 lg:col-span-6 flex flex-col items-center justify-center text-center px-6 sm:px-10 py-6 lg:py-8 z-10 overflow-y-auto lg:overflow-y-hidden">
+        <div className="relative col-span-1 lg:col-span-6 flex flex-col items-center justify-center text-center px-6 sm:px-10 py-6 lg:py-8 z-10 overflow-y-auto lg:overflow-y-hidden">
           
           {/* HERO CONTENT AREA */}
           <div className="flex flex-col items-center max-w-xl w-full my-auto">

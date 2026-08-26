@@ -28,18 +28,18 @@ type FooterProps = {
 
 const Footer = ({ onBookCall, eyebrow = "Ready when you are", headline = "Let’s make your launch clear.", buttonLabel = "Book a call" }: FooterProps) => (
   <footer className="bg-white p-[6px] sm:p-2">
-    <div className={`flex overflow-hidden rounded-[5px] bg-[#FE6B00] text-white ${onBookCall ? "min-h-[calc(100svh-16px)] flex-col" : "flex-col"}`}>
-      <div className={`mx-auto flex w-full max-w-4xl flex-col items-center px-6 text-center ${onBookCall ? "flex-1 justify-center py-16" : "py-14 md:py-16"}`}>
+    <div className={`flex overflow-hidden rounded-[5px] bg-[#FE6B00] text-white ${onBookCall ? "h-[calc(100svh-12px)] min-h-[620px] flex-col sm:h-[calc(100svh-16px)]" : "flex-col"}`}>
+      <div className={`mx-auto flex w-full max-w-4xl flex-col items-center px-6 text-center ${onBookCall ? "min-h-0 flex-1 justify-center py-10 md:py-12" : "py-14 md:py-16"}`}>
         {onBookCall && (
           <>
             <p className="mb-5 font-body text-xs font-semibold uppercase tracking-[0.12em] text-white/65">{eyebrow}</p>
-            <h2 className="font-body text-3xl font-medium leading-tight tracking-tight md:text-5xl">{headline}</h2>
+            <h2 className="max-w-3xl font-body text-[28px] font-medium leading-[1.12] tracking-tight sm:text-3xl md:text-[44px]">{headline}</h2>
             <button type="button" onClick={onBookCall} className="mt-8 inline-flex h-11 min-w-[152px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-white/80 bg-white/95 px-6 font-body text-sm font-semibold leading-none text-neutral-800 shadow-sm transition-transform hover:scale-[1.02] hover:bg-white active:scale-[0.98]">
               {buttonLabel} <ArrowUpRight size={15} />
             </button>
           </>
         )}
-        <div className={`${onBookCall ? "mt-16" : ""} flex items-center justify-center gap-6`}>
+        <div className={`${onBookCall ? "mt-12 md:mt-14" : ""} flex items-center justify-center gap-6`}>
             {socialIcons.map((icon) => (
               <a key={icon.name} href={icon.href} target="_blank" rel="noopener noreferrer" aria-label={icon.name} className="text-white/70 transition-colors hover:text-white">
                 <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="currentColor"><path d={icon.path} /></svg>
@@ -49,8 +49,8 @@ const Footer = ({ onBookCall, eyebrow = "Ready when you are", headline = "Let’
         <p className="mt-5 text-xs font-medium text-white/65">© 2026 Reblues. All rights reserved.</p>
       </div>
 
-      <div className="flex flex-none items-center justify-center overflow-hidden border-t border-white/20 px-4 py-9 md:px-8 md:py-11">
-        <img src={rebluesFooterWordmark} alt="Reblues" className="block h-auto w-full max-w-[1100px] opacity-30" />
+      <div className="flex h-[clamp(132px,24svh,210px)] flex-none items-center justify-center overflow-hidden border-t border-white/20 px-5 py-6 md:px-8 md:py-7">
+        <img src={rebluesFooterWordmark} alt="Reblues" className="block max-h-full w-full max-w-[900px] object-contain opacity-30" />
       </div>
     </div>
   </footer>

@@ -9,7 +9,7 @@ const links = [
 
 const ServiceMenu = () => (
   <nav aria-label="Primary" className="border-b border-neutral-200 bg-white">
-    <div className="mx-auto flex h-11 max-w-[1600px] items-center justify-center gap-8 overflow-x-auto px-6 sm:gap-12">
+    <div className="mx-auto flex h-11 max-w-[1600px] items-center justify-center gap-4 overflow-x-auto px-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-12 sm:px-6">
       {links.map((link) => (
         <NavLink
           key={link.to}
