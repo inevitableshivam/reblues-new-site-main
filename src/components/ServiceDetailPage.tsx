@@ -31,6 +31,22 @@ export type ServicePageContent = {
     bestFor: string[];
     journey: string[];
   };
+  educationFormats?: {
+    label: string;
+    title: string;
+    description: string;
+    format: string;
+    bestFor: string;
+    bullets: string[];
+    audiences?: string[];
+  }[];
+  educationExamples?: {
+    company: string;
+    mark: string;
+    accent: string;
+    pattern: string;
+    description: string;
+  }[];
 };
 
 const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
@@ -141,6 +157,67 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
           </section>
         )}
 
+        {content.educationFormats && (
+          <section className="border-b border-neutral-200 py-16 md:py-20">
+            <div className="mx-auto max-w-6xl px-6 sm:px-8">
+              <div className="mb-10 max-w-3xl md:mb-12">
+                <p className="mb-3 text-xs font-semibold text-[#FE6B00]">Two education systems</p>
+                <h2 className="font-display text-3xl font-normal leading-tight tracking-tight md:text-4xl">
+                  Teach the whole product. Then show every audience what to do with it.
+                </h2>
+                <p className="mt-4 max-w-2xl font-body text-sm font-medium leading-relaxed text-neutral-500 sm:text-base">
+                  Some users need a clear path through the product. Others need to see how it solves the specific problems they own. We build for both.
+                </p>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-2">
+                {content.educationFormats.map((format, index) => (
+                  <article key={format.title} className="overflow-hidden rounded-[5px] border border-neutral-200 bg-white">
+                    <div className="relative flex min-h-[270px] items-center justify-center overflow-hidden border-b border-neutral-200 bg-neutral-50/40 p-7">
+                      {index === 0 ? (
+                        <div className="w-full max-w-[340px] space-y-3">
+                          {["Start here", "Core workflows", "Advanced features", "Team rollout"].map((lesson, lessonIndex) => (
+                            <div key={lesson} className="flex h-11 items-center gap-4 rounded-[5px] border border-neutral-200 bg-white px-4 shadow-[0_1px_0_rgba(0,0,0,0.02)]">
+                              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#FE6B00]/10 text-[10px] font-semibold text-[#FE6B00]">{lessonIndex + 1}</span>
+                              <span className="font-body text-xs font-semibold text-neutral-700">{lesson}</span>
+                              <span className="ml-auto h-1.5 w-12 rounded-full bg-neutral-100"><span className="block h-full rounded-full bg-[#FE6B00]" style={{ width: `${82 - lessonIndex * 14}%` }} /></span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="flex w-full max-w-[360px] items-center justify-center gap-4 sm:gap-6">
+                          <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[5px] border border-neutral-300 bg-white text-center font-body text-xs font-semibold text-neutral-900 shadow-sm">Your<br />product</div>
+                          <ArrowRight aria-hidden="true" size={18} strokeWidth={1.5} className="shrink-0 text-[#FE6B00]" />
+                          <div className="grid flex-1 gap-2.5">
+                            {(format.audiences ?? []).map((audience) => (
+                              <span key={audience} className="rounded-[5px] border border-neutral-200 bg-white px-3 py-2 text-center font-body text-[11px] font-semibold text-neutral-600 shadow-sm">{audience}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="p-7 md:p-8">
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-[#FE6B00]">0{index + 1} · {format.label}</span>
+                      </div>
+                      <h3 className="mt-5 font-body text-2xl font-semibold tracking-tight text-neutral-900">{format.title}</h3>
+                      <p className="mt-3 font-body text-sm font-medium leading-relaxed text-neutral-500">{format.description}</p>
+                      <dl className="mt-7 divide-y divide-neutral-200 border-y border-neutral-200">
+                        <div className="grid grid-cols-[88px_1fr] gap-4 py-3 text-sm"><dt className="font-medium text-neutral-400">Format</dt><dd className="font-semibold text-neutral-800">{format.format}</dd></div>
+                        <div className="grid grid-cols-[88px_1fr] gap-4 py-3 text-sm"><dt className="font-medium text-neutral-400">Best for</dt><dd className="font-semibold text-neutral-800">{format.bestFor}</dd></div>
+                      </dl>
+                      <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                        {format.bullets.map((item) => <li key={item} className="flex items-start gap-2.5 font-body text-xs font-semibold leading-relaxed text-neutral-600"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-[#FE6B00]" />{item}</li>)}
+                      </ul>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="py-16 md:py-20">
           <div className="mx-auto max-w-6xl px-6 sm:px-8">
             <div className="mb-9 max-w-2xl">
@@ -163,6 +240,34 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
             </div>
           </div>
         </section>
+
+        {content.educationExamples && (
+          <section className="border-t border-neutral-200 py-16 md:py-20">
+            <div className="mx-auto max-w-6xl px-6 sm:px-8">
+              <div className="mb-9 max-w-2xl">
+                <p className="mb-3 text-xs font-semibold text-[#FE6B00]">Patterns worth studying</p>
+                <h2 className="font-display text-3xl font-normal leading-tight tracking-tight md:text-4xl">Companies making user education part of the product.</h2>
+                <p className="mt-4 max-w-xl font-body text-sm font-medium leading-relaxed text-neutral-500 sm:text-base">Different products, different audiences, and one shared idea: teach users around the outcome they came for.</p>
+              </div>
+              <div className="grid gap-6 md:grid-cols-3">
+                {content.educationExamples.map((example) => (
+                  <article key={example.company} className="overflow-hidden rounded-[5px] border border-neutral-200 bg-white">
+                    <div className="flex aspect-[16/9] items-center justify-center border-b border-neutral-200 bg-neutral-50/50 p-8">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-[5px] text-sm font-bold text-white" style={{ backgroundColor: example.accent }}>{example.mark}</span>
+                        <span className="font-body text-xl font-semibold tracking-tight text-neutral-900">{example.company}</span>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <p className="font-body text-[10px] font-semibold uppercase tracking-[0.12em] text-[#FE6B00]">{example.pattern}</p>
+                      <p className="mt-3 font-body text-sm font-medium leading-relaxed text-neutral-500">{example.description}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {content.caseStudies && (
           <section className="border-t border-neutral-200 py-16 md:py-20">
