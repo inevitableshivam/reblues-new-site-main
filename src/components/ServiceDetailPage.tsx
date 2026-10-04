@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Eye, Play } from "lucide-react";
 import AsciiDockingStationLeft from "./AsciiDockingStationLeft";
 import AsciiSpaceshipRight from "./AsciiSpaceshipRight";
 import AsciiCockpitLeft from "./AsciiCockpitLeft";
@@ -11,6 +11,7 @@ import Footer from "./Footer";
 import ServiceMenu from "./ServiceMenu";
 import TopHeader from "./TopHeader";
 import MobileHeroArtwork from "./MobileHeroArtwork";
+import AdCampaignArtwork from "./AdCampaignArtwork";
 
 export type ServicePageContent = {
   eyebrow: string;
@@ -21,10 +22,12 @@ export type ServicePageContent = {
   steps: { title: string; description: string }[];
   launchArtwork?: boolean;
   productEducationArtwork?: boolean;
+  adCampaignArtwork?: boolean;
   ctaEyebrow: string;
   ctaHeadline: string;
   ctaButtonLabel: string;
-  caseStudies?: { company: string; url: string; engagement: string }[];
+  featuredLaunchVideos?: { title: string; youtubeId: string }[];
+  caseStudies?: { company: string; url: string; videoSrc: string; views: string }[];
   educationOverview?: {
     title: string;
     description: string;
@@ -47,6 +50,57 @@ export type ServicePageContent = {
     pattern: string;
     description: string;
   }[];
+  launchFormats?: {
+    label: string;
+    title: string;
+    description: string;
+    outcome: string;
+    artwork: string;
+    pointers: string[];
+  }[];
+  adCampaignOverview?: {
+    title: string;
+    description: string;
+    formats: {
+      label: string;
+      title: string;
+      description: string;
+      deliverables: string[];
+    }[];
+  };
+};
+
+const LaunchVideoPreview = ({ title, youtubeId }: { title: string; youtubeId: string }) => {
+  const [playing, setPlaying] = useState(false);
+  const [thumbnail, setThumbnail] = useState(`https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`);
+
+  return (
+    <div className="relative aspect-video w-full overflow-hidden rounded-[5px] bg-neutral-950">
+      {playing ? (
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+          title={title}
+          className="absolute inset-0 h-full w-full"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowFullScreen
+        />
+      ) : (
+        <button type="button" onClick={() => setPlaying(true)} aria-label={`Play ${title}`} className="group absolute inset-0 h-full w-full">
+          <img
+            src={thumbnail}
+            alt={title}
+            loading="lazy"
+            onError={() => setThumbnail(`https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`)}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+          />
+          <span className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/20" />
+          <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-[5px] bg-[#FE6B00] text-white transition-transform group-hover:scale-105 md:h-16 md:w-16">
+            <Play size={22} fill="currentColor" className="ml-0.5" />
+          </span>
+        </button>
+      )}
+    </div>
+  );
 };
 
 const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
@@ -55,30 +109,6 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  useEffect(() => {
-    if (!content.caseStudies?.length) return;
-
-    const scriptId = "twitter-widgets-script";
-    const loadEmbeds = () => {
-      const twitter = (window as Window & { twttr?: { widgets?: { load: (element?: HTMLElement) => void } } }).twttr;
-      twitter?.widgets?.load(document.querySelector("main") ?? undefined);
-    };
-
-    const existingScript = document.getElementById(scriptId) as HTMLScriptElement | null;
-    if (existingScript) {
-      loadEmbeds();
-      existingScript.addEventListener("load", loadEmbeds, { once: true });
-      return () => existingScript.removeEventListener("load", loadEmbeds);
-    }
-
-    const script = document.createElement("script");
-    script.id = scriptId;
-    script.src = "https://platform.twitter.com/widgets.js";
-    script.async = true;
-    script.onload = loadEmbeds;
-    document.head.appendChild(script);
-  }, [content.caseStudies]);
 
   return (
     <div className="min-h-screen bg-white font-body text-neutral-950 antialiased">
@@ -95,14 +125,14 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
             <div aria-hidden="true" className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 font-body text-[10px] font-medium uppercase tracking-[0.14em] text-neutral-300">
               Scroll <ArrowDown size={12} strokeWidth={1.5} />
             </div>
-            {(content.launchArtwork || content.productEducationArtwork) && (
+            {(content.launchArtwork || content.productEducationArtwork || content.adCampaignArtwork) && (
               <MobileHeroArtwork
-                left={content.launchArtwork ? <AsciiDockingStationLeft /> : <AsciiCockpitLeft />}
-                right={content.launchArtwork ? <AsciiSpaceshipRight /> : <AsciiCockpitRight />}
+                left={content.launchArtwork ? <AsciiDockingStationLeft /> : content.productEducationArtwork ? <AsciiCockpitLeft /> : <AdCampaignArtwork side="left" />}
+                right={content.launchArtwork ? <AsciiSpaceshipRight /> : content.productEducationArtwork ? <AsciiCockpitRight /> : <AdCampaignArtwork side="right" />}
               />
             )}
             <div className="relative hidden overflow-hidden border-r border-neutral-200 lg:col-span-3 lg:flex">
-              {content.launchArtwork ? <AsciiDockingStationLeft /> : content.productEducationArtwork ? <AsciiCockpitLeft /> : null}
+              {content.launchArtwork ? <AsciiDockingStationLeft /> : content.productEducationArtwork ? <AsciiCockpitLeft /> : content.adCampaignArtwork ? <AdCampaignArtwork side="left" /> : null}
             </div>
             <div className="relative z-10 flex items-center justify-center px-6 py-16 text-center sm:px-10 lg:col-span-6">
               <div className="flex max-w-xl flex-col items-center">
@@ -117,7 +147,7 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
               </div>
             </div>
             <div className="relative hidden overflow-hidden border-l border-neutral-200 lg:col-span-3 lg:flex">
-              {content.launchArtwork ? <AsciiSpaceshipRight /> : content.productEducationArtwork ? <AsciiCockpitRight /> : null}
+              {content.launchArtwork ? <AsciiSpaceshipRight /> : content.productEducationArtwork ? <AsciiCockpitRight /> : content.adCampaignArtwork ? <AdCampaignArtwork side="right" /> : null}
             </div>
           </div>
         </section>
@@ -152,6 +182,71 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {content.launchFormats && (
+          <section className="border-b border-neutral-200 py-14 md:py-16">
+            <div className="mx-auto max-w-6xl px-6 sm:px-8">
+              <div className="mb-8 max-w-3xl md:mb-10">
+                <p className="mb-3 text-xs font-semibold text-[#FE6B00]">Two launch moments</p>
+                <h2 className="font-display text-3xl font-normal leading-tight tracking-tight md:text-4xl">Two ways to turn a launch into momentum.</h2>
+                <p className="mt-3 max-w-2xl font-body text-sm font-medium leading-relaxed text-neutral-500 sm:text-base">Introduce what is new—or show what a company milestone makes possible.</p>
+              </div>
+              <div className="grid gap-6 md:grid-cols-2">
+                {content.launchFormats.map((format, index) => (
+                  <article key={format.title} className="overflow-hidden rounded-[5px] border border-neutral-200 bg-white">
+                    <div className="relative h-[280px] overflow-hidden border-b border-neutral-200 bg-neutral-50/40 sm:h-[340px]">
+                      <pre aria-hidden="true" className="absolute left-1/2 top-1/2 w-max -translate-x-1/2 -translate-y-1/2 whitespace-pre font-mono text-[1.08px] leading-[1.28px] tracking-[-0.02em] text-neutral-600/45 sm:text-[1.32px] sm:leading-[1.6px]">{format.artwork}</pre>
+                    </div>
+                    <div className="p-6 md:p-7">
+                      <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#FE6B00]">0{index + 1} · {format.label}</span>
+                      <h3 className="mt-4 text-2xl font-semibold tracking-tight">{format.title}</h3>
+                      <p className="mt-2 max-w-lg text-sm font-medium leading-relaxed text-neutral-500">{format.description}</p>
+                      <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                        {format.pointers.map((pointer) => (
+                          <li key={pointer} className="flex items-start gap-2 text-xs font-semibold leading-relaxed text-neutral-600"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-[#FE6B00]" />{pointer}</li>
+                        ))}
+                      </ul>
+                      <dl className="mt-5 border-t border-neutral-200">
+                        <div className="grid grid-cols-[68px_1fr] gap-4 pt-4 text-sm"><dt className="text-neutral-400">Outcome</dt><dd className="font-semibold text-neutral-800">{format.outcome}</dd></div>
+                      </dl>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {content.adCampaignOverview && (
+          <section className="border-b border-neutral-200 py-16 md:py-20">
+            <div className="mx-auto max-w-6xl px-6 sm:px-8">
+              <div className="mb-10 max-w-3xl md:mb-12">
+                <p className="mb-3 text-xs font-semibold text-[#FE6B00]">Creative built to test</p>
+                <h2 className="font-display text-3xl font-normal leading-tight tracking-tight md:text-4xl">{content.adCampaignOverview.title}</h2>
+                <p className="mt-4 max-w-2xl text-sm font-medium leading-relaxed text-neutral-500 sm:text-base">{content.adCampaignOverview.description}</p>
+              </div>
+              <div className="grid gap-6 md:grid-cols-3">
+                {content.adCampaignOverview.formats.map((format, index) => (
+                  <article key={format.title} className="overflow-hidden rounded-[5px] border border-neutral-200 bg-white">
+                    <div className="relative aspect-[4/3] overflow-hidden border-b border-neutral-200 bg-neutral-50/60 p-6">
+                      <div className={`h-full rounded-[5px] border border-neutral-200 bg-white p-5 shadow-sm ${index === 1 ? "rotate-2" : index === 2 ? "-rotate-2" : ""}`}>
+                        <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#FE6B00]">Ad 0{index + 1}</span>
+                        <p className="mt-5 text-xl font-semibold leading-tight tracking-tight">{index === 0 ? "Show the workflow." : index === 1 ? "Lead with the pain." : "Turn one idea into variants."}</p>
+                        <div className="mt-7 h-14 rounded-[4px] bg-neutral-900 p-3"><span className="block h-1.5 w-2/3 rounded-full bg-white/70" /><span className="mt-2 block h-1.5 w-1/2 rounded-full bg-white/25" /></div>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#FE6B00]">{format.label}</span>
+                      <h3 className="mt-3 text-xl font-semibold tracking-tight">{format.title}</h3>
+                      <p className="mt-3 text-sm font-medium leading-relaxed text-neutral-500">{format.description}</p>
+                      <ul className="mt-5 space-y-2.5">{format.deliverables.map((item) => <li key={item} className="flex items-center gap-2 text-xs font-semibold text-neutral-600"><span className="h-1.5 w-1.5 bg-[#FE6B00]" />{item}</li>)}</ul>
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
           </section>
@@ -269,29 +364,39 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
           </section>
         )}
 
-        {content.caseStudies && (
+        {(content.featuredLaunchVideos || content.caseStudies) && (
           <section className="border-t border-neutral-200 py-16 md:py-20">
             <div className="mx-auto max-w-6xl px-6 sm:px-8">
               <div className="mb-8 max-w-2xl">
-                <p className="mb-4 text-xs font-semibold text-[#FE6B00]">Selected launch work</p>
-                <h2 className="font-display text-3xl font-normal leading-tight tracking-tight md:text-4xl">Launch videos that earned attention.</h2>
-                <p className="mt-4 max-w-xl font-body text-sm font-medium leading-relaxed text-neutral-500 sm:text-base">
-                  Strong creative and careful campaign preparation can improve the odds of a launch being seen. We never guarantee views or virality.
-                </p>
+                <p className="mb-3 text-xs font-semibold text-[#FE6B00]">Selected launch work</p>
+                <h2 className="font-display text-3xl font-normal leading-tight tracking-tight md:text-4xl">Launch work, without the clutter.</h2>
               </div>
-              <div className="grid grid-cols-1 items-start gap-7 md:grid-cols-3">
-                {content.caseStudies.map((study) => (
-                  <article key={study.url} className="min-w-0 [&_.twitter-tweet]:!m-0 [&_.twitter-tweet]:!w-full [&_.twitter-tweet]:!max-w-full">
-                    <blockquote className="twitter-tweet" data-dnt="true" data-theme="light">
-                      <a href={study.url} aria-label={`${study.company} launch video on X`} />
-                    </blockquote>
-                    <div className="mt-3 flex items-center justify-between gap-4 px-0.5 font-body">
-                      <h3 className="font-body text-sm font-semibold text-neutral-900">{study.company}</h3>
-                      <p className="text-xs font-medium text-neutral-500">{study.engagement}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
+              {content.featuredLaunchVideos && (
+                <div className="grid grid-cols-1 gap-7 md:grid-cols-3">
+                  {content.featuredLaunchVideos.map((video) => (
+                    <article key={video.youtubeId} className="min-w-0">
+                      <LaunchVideoPreview title={video.title} youtubeId={video.youtubeId} />
+                      <h3 className="mt-3 text-sm font-semibold text-neutral-900">{video.title}</h3>
+                    </article>
+                  ))}
+                </div>
+              )}
+              {content.caseStudies && (
+                <div className="mt-12 border-t border-neutral-200 pt-8">
+                  <div className="mb-5 flex items-center gap-2 text-neutral-700"><Eye size={17} className="text-[#FE6B00]" /><p className="text-sm font-semibold">Launches on X</p></div>
+                  <div className="grid grid-cols-1 items-start gap-7 md:grid-cols-3">
+                    {content.caseStudies.map((study) => (
+                      <article key={study.url} className="min-w-0">
+                        <video src={study.videoSrc} controls playsInline preload="metadata" aria-label={`${study.company} launch video`} className="aspect-video w-full rounded-[5px] bg-neutral-950 object-cover" />
+                        <div className="mt-3 flex items-center justify-between gap-4 px-0.5 font-body">
+                          <h3 className="text-sm font-semibold text-neutral-900">{study.company}</h3>
+                          <a href={study.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-base font-bold tracking-tight text-neutral-900 transition-colors hover:text-[#FE6B00]"><Eye size={16} className="text-[#FE6B00]" />{study.views}</a>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </section>
         )}

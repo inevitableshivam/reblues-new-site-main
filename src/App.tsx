@@ -7,6 +7,8 @@ import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
 import LaunchFilms from "./pages/LaunchFilms";
 import ProductEducation from "./pages/ProductEducation";
+import AdCampaigns from "./pages/AdCampaigns";
+import Process from "./pages/Process";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +24,8 @@ const App = () => (
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/launch-films" element={<LaunchFilms />} />
           <Route path="/product-education" element={<ProductEducation />} />
+          <Route path="/ad-campaigns" element={<AdCampaigns />} />
+          <Route path="/process" element={<Process />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
