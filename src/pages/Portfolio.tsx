@@ -19,6 +19,27 @@ type Project = {
   logo: string;
 };
 
+type RecentProject = {
+  id: string;
+  title: string;
+  company: string;
+  videoSrc: string;
+  posterSrc: string;
+};
+
+const recentProjects: RecentProject[] = [
+  { id: "mina-ai", title: "Launch Film", company: "Mina AI", videoSrc: "/process/videos/mina-full-film.mp4", posterSrc: "/portfolio-recent/mina-ai-poster.jpg" },
+  { id: "scouty", title: "Product Film", company: "Scouty", videoSrc: "/portfolio-recent/scouty.mp4", posterSrc: "/portfolio-recent/scouty-poster.jpg" },
+  { id: "farao-new", title: "Product Film", company: "Farao", videoSrc: "/portfolio-recent/farao.mp4", posterSrc: "/portfolio-recent/farao-poster.jpg" },
+  { id: "edit", title: "Campaign Film", company: "Edit", videoSrc: "/portfolio-recent/edit.mp4", posterSrc: "/portfolio-recent/edit-poster.jpg" },
+];
+
+const founderPosts = [
+  { url: "https://x.com/albysjourney/status/2048809398076919849", company: "Median", views: "83.1K", likes: "638", replies: "90" },
+  { url: "https://x.com/EvanYadegari/status/2053965603447173585", company: "10X", views: "199.2K", likes: "686", replies: "68" },
+  { url: "https://x.com/EvanYadegari/status/2087193758433526027?s=20", company: "10X", views: "120.5K", likes: "265", replies: "62" },
+];
+
 const projects: Project[] = [
   { id: "1", title: "LeadCRM.io — Product Demo", youtubeId: "VJSUUDlAVBk", company: "LeadCRM.io", category: "demo", logo: "/logos/leadcrm_io.png" },
   { id: "2", title: "Lemmino — Product Demo", youtubeId: "cygElzZGQRg", company: "Lemmino", category: "demo", logo: "/logos/lemmino.png" },
@@ -88,6 +109,32 @@ const ProjectItem = ({ project }: { project: Project }) => (
     </div>
   </article>
 );
+
+const RecentProjectItem = ({ project }: { project: RecentProject }) => {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <article className="min-w-0">
+      <div className="relative aspect-video w-full overflow-hidden rounded-[5px] bg-neutral-950">
+        {playing ? (
+          <video src={project.videoSrc} poster={project.posterSrc} controls autoPlay playsInline preload="metadata" aria-label={`${project.company} ${project.title}`} className="absolute inset-0 h-full w-full object-contain" />
+        ) : (
+          <button type="button" onClick={() => setPlaying(true)} aria-label={`Play ${project.company} ${project.title}`} className="group absolute inset-0 h-full w-full">
+            <img src={project.posterSrc} alt={`${project.company} ${project.title}`} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]" />
+            <span className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/20" />
+            <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-[5px] bg-[#FE6B00] text-white transition-transform group-hover:scale-105 md:h-16 md:w-16">
+              <Play size={22} fill="currentColor" className="ml-0.5" />
+            </span>
+          </button>
+        )}
+      </div>
+      <div className="mt-3 px-0.5">
+        <h3 className="font-body text-[13px] font-semibold leading-tight tracking-tight text-neutral-900 md:text-sm">{project.company}</h3>
+        <p className="mt-0.5 font-body text-xs font-medium leading-snug text-neutral-500 md:text-[13px]">{project.title}</p>
+      </div>
+    </article>
+  );
+};
 
 const testimonials = [
   {
@@ -167,12 +214,24 @@ const Portfolio = () => {
         </section>
 
         <div className="mx-auto max-w-6xl px-6 sm:px-8">
+          <section className="border-b border-neutral-200 py-14 md:py-16">
+            <div className="relative mb-7 flex items-center gap-3 border-b border-neutral-200 pb-4">
+              <span className="font-body text-[11px] font-medium text-[#FE6B00]">01</span>
+              <h2 className="font-body text-xl font-semibold tracking-tight md:text-2xl">Recent Work</h2>
+              <span aria-hidden="true" className="absolute bottom-0 left-0 -translate-x-1/2 translate-y-1/2 bg-white px-1 text-base font-medium leading-none text-[#FE6B00]">+</span>
+              <span aria-hidden="true" className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 bg-white px-1 text-base font-medium leading-none text-[#FE6B00]">+</span>
+            </div>
+            <div className="grid grid-cols-1 gap-x-8 gap-y-9 md:grid-cols-2">
+              {recentProjects.map((project) => <RecentProjectItem key={project.id} project={project} />)}
+            </div>
+          </section>
+
           {categories.map((category, index) => {
             const categoryProjects = projects.filter((project) => project.category === category.id);
             return (
               <section key={category.id} className={`py-14 md:py-16 ${index < categories.length - 1 ? "border-b border-neutral-200" : ""}`}>
                 <div className="relative mb-7 flex items-center gap-3 border-b border-neutral-200 pb-4">
-                  <span className="font-body text-[11px] font-medium text-[#FE6B00]">0{index + 1}</span>
+                  <span className="font-body text-[11px] font-medium text-[#FE6B00]">0{index + 2}</span>
                   <h2 className="font-body text-xl font-semibold tracking-tight md:text-2xl">{category.label}</h2>
                   <span aria-hidden="true" className="absolute bottom-0 left-0 -translate-x-1/2 translate-y-1/2 bg-white px-1 text-base font-medium leading-none text-[#FE6B00]">+</span>
                   <span aria-hidden="true" className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 bg-white px-1 text-base font-medium leading-none text-[#FE6B00]">+</span>
@@ -188,21 +247,32 @@ const Portfolio = () => {
         <section className="border-t border-neutral-200 py-14 md:py-16">
           <div className="mx-auto max-w-6xl px-6 sm:px-8">
             <div className="relative mb-7 flex items-center gap-3 border-b border-neutral-200 pb-4">
-              <span className="font-body text-[11px] font-medium text-[#FE6B00]">05</span>
+              <span className="font-body text-[11px] font-medium text-[#FE6B00]">06</span>
               <h2 className="font-body text-xl font-semibold tracking-tight md:text-2xl">Founder + Motion Graphics</h2>
               <span aria-hidden="true" className="absolute bottom-0 left-0 -translate-x-1/2 translate-y-1/2 bg-white px-1 text-base font-medium leading-none text-[#FE6B00]">+</span>
               <span aria-hidden="true" className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 bg-white px-1 text-base font-medium leading-none text-[#FE6B00]">+</span>
             </div>
             <div className="grid grid-cols-1 items-start gap-y-8 md:grid-cols-3 md:gap-x-7">
-              {[
-                { url: "https://x.com/albysjourney/status/2048809398076919849", company: "Median" },
-                { url: "https://x.com/EvanYadegari/status/2053965603447173585", company: "10X" },
-                { url: "https://x.com/EvanYadegari/status/2087193758433526027?s=20", company: "10X" },
-              ].map((post) => (
+              {founderPosts.map((post) => (
                 <article key={post.url} className="min-w-0 [&_.twitter-tweet]:!m-0 [&_.twitter-tweet]:!w-full [&_.twitter-tweet]:!max-w-full">
                   <blockquote className="twitter-tweet" data-dnt="true" data-theme="light">
                     <a href={post.url} aria-label={`${post.company} founder motion graphics post on X`} />
                   </blockquote>
+                  <div className="mt-3 rounded-[5px] border border-neutral-200 bg-neutral-50/60 px-4 py-3">
+                    <div className="grid grid-cols-3 gap-3">
+                      {[
+                        { label: "Views", value: post.views },
+                        { label: "Likes", value: post.likes },
+                        { label: "Replies", value: post.replies },
+                      ].map((metric) => (
+                        <div key={metric.label}>
+                          <p className="font-body text-[15px] font-semibold leading-none tracking-tight text-neutral-900">{metric.value}</p>
+                          <p className="mt-1 font-body text-[10px] font-medium uppercase tracking-[0.08em] text-neutral-400">{metric.label}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-3 border-t border-neutral-200 pt-2 font-body text-[9px] font-medium text-neutral-400">X engagement · Oct 10, 2026</p>
+                  </div>
                 </article>
               ))}
             </div>
