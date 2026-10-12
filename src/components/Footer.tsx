@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import rebluesFooterWordmark from "@/assets/reblues-footer-wordmark.svg";
 
 const socialIcons = [
@@ -39,7 +40,10 @@ const Footer = ({ onBookCall, eyebrow = "Ready when you are", headline = "Let’
             </button>
           </>
         )}
-        <div className={`${onBookCall ? "mt-12 md:mt-14" : ""} flex items-center justify-center gap-6`}>
+        <nav aria-label="Footer" className={`${onBookCall ? "mt-11 md:mt-12" : ""} flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-medium text-white/75`}>
+          <Link to="/cases" className="transition-colors hover:text-white">Case studies</Link>
+        </nav>
+        <div className="mt-6 flex items-center justify-center gap-6">
             {socialIcons.map((icon) => (
               <a key={icon.name} href={icon.href} target="_blank" rel="noopener noreferrer" aria-label={icon.name} className="text-white/70 transition-colors hover:text-white">
                 <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="currentColor"><path d={icon.path} /></svg>

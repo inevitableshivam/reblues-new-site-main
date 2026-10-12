@@ -46,6 +46,7 @@ export type ServicePageContent = {
   educationExamples?: {
     company: string;
     mark: string;
+    logoSrc?: string;
     accent: string;
     pattern: string;
     description: string;
@@ -348,10 +349,14 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
                 {content.educationExamples.map((example) => (
                   <article key={example.company} className="overflow-hidden rounded-[5px] border border-neutral-200 bg-white">
                     <div className="flex aspect-[16/9] items-center justify-center border-b border-neutral-200 bg-neutral-50/50 p-8">
-                      <div className="flex items-center gap-3">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-[5px] text-sm font-bold text-white" style={{ backgroundColor: example.accent }}>{example.mark}</span>
-                        <span className="font-body text-xl font-semibold tracking-tight text-neutral-900">{example.company}</span>
-                      </div>
+                      {example.logoSrc ? (
+                        <img src={example.logoSrc} alt={`${example.company} logo`} className="h-10 w-auto max-w-[150px] object-contain" />
+                      ) : (
+                        <div className="flex items-center gap-3">
+                          <span className="flex h-10 w-10 items-center justify-center rounded-[5px] text-sm font-bold text-white" style={{ backgroundColor: example.accent }}>{example.mark}</span>
+                          <span className="font-body text-xl font-semibold tracking-tight text-neutral-900">{example.company}</span>
+                        </div>
+                      )}
                     </div>
                     <div className="p-6">
                       <p className="font-body text-[10px] font-semibold uppercase tracking-[0.12em] text-[#FE6B00]">{example.pattern}</p>

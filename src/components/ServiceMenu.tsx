@@ -6,6 +6,7 @@ const links = [
   { label: "Product Education", to: "/product-education" },
   { label: "Portfolio", to: "/portfolio" },
   { label: "Process", to: "/process" },
+  { label: "Cases", to: "/cases" },
 ];
 
 const ServiceMenu = () => (

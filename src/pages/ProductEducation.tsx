@@ -47,9 +47,9 @@ const content: ServicePageContent = {
     { title: "Integration", description: "We organise and place the finished library across onboarding, in-product guidance, help centres and customer-success workflows." },
   ],
   educationExamples: [
-    { company: "Webflow", mark: "W", accent: "#4353FF", pattern: "Role-based learning paths", description: "Webflow University guides beginners through fundamentals while giving marketers, editors and advanced builders paths designed around their jobs." },
-    { company: "HubSpot", mark: "H", accent: "#FF5C35", pattern: "Goal-led academy", description: "HubSpot Academy organises learning around marketing, sales and service outcomes, helping different teams connect product skills to business goals." },
-    { company: "Zapier", mark: "Z", accent: "#FF4F00", pattern: "Workflow-first tutorials", description: "Zapier pairs foundations with templates and end-to-end workflow education, so users learn through the automation they want to build." },
+    { company: "Webflow", mark: "W", logoSrc: "/logos/education-webflow.svg", accent: "#146EF5", pattern: "Role-based learning paths", description: "Webflow University guides beginners through fundamentals while giving marketers, editors and advanced builders paths designed around their jobs." },
+    { company: "HubSpot", mark: "H", logoSrc: "/logos/education-hubspot.svg", accent: "#FF5C35", pattern: "Goal-led academy", description: "HubSpot Academy organises learning around marketing, sales and service outcomes, helping different teams connect product skills to business goals." },
+    { company: "Zapier", mark: "Z", logoSrc: "/logos/education-zapier.svg", accent: "#FF4F00", pattern: "Workflow-first tutorials", description: "Zapier pairs foundations with templates and end-to-end workflow education, so users learn through the automation they want to build." },
   ],
 };
 
