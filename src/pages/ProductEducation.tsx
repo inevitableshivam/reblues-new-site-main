@@ -57,6 +57,17 @@ const content: ServicePageContent = {
       img: "/testimonials/vijayraghvan.png",
     },
   },
+  playbook: {
+    title: "The Product Education Playbook",
+    description: "How we map your ICP, features and roadmap into a video library, the two ways we produce it, and where each video earns its keep.",
+    cover: "/playbook/cover.jpg",
+    pdf: "/playbook/reblues-product-education-playbook.pdf",
+    points: [
+      "The 5-step process, from ICP to finished library",
+      "Academy, tutorials, how-tos, releases and changelogs",
+      "Motion and UI reconstruction vs. on-camera shoots",
+    ],
+  },
   faqs: [
     { question: "What do you need from our team?", answer: "A walkthrough of the product, access to a demo or staging account, and one person who can review scripts and cuts. We handle the rest." },
     { question: "Does this work for complex or enterprise products?", answer: "Yes. That's where education matters most. Our Pillir library teaches AI agents running real SAP workflows, a long way from a simple signup flow." },
