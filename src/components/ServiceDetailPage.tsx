@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { ArrowDown, ArrowRight, ArrowUpRight, Eye, Play } from "lucide-react";
 import AsciiDockingStationLeft from "./AsciiDockingStationLeft";
 import AsciiSpaceshipRight from "./AsciiSpaceshipRight";
@@ -61,6 +61,7 @@ export type ServicePageContent = {
     quote: { text: string; name: string; role: string; img: string };
   };
   faqs?: { question: string; answer: string }[];
+  playbook?: { title: string; description: string; cover: string; pdf: string; points: string[] };
   launchFormats?: {
     label: string;
     title: string;
@@ -139,6 +140,67 @@ const EducationVideo = ({ video }: { video: { title: string; audience: string; d
         <span className="shrink-0 font-body text-xs font-medium text-neutral-400">{video.duration}</span>
       </div>
     </article>
+  );
+};
+
+type PlaybookContent = { title: string; description: string; cover: string; pdf: string; points: string[] };
+
+const PlaybookGate = ({ playbook }: { playbook: PlaybookContent }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [hp, setHp] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [error, setError] = useState("");
+  useEffect(() => {
+    try { if (localStorage.getItem("rb_pe_playbook") === "1") setStatus("done"); } catch { /* ignore */ }
+  }, []);
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError("");
+    if (!name.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) { setError("Please add your name and a valid email."); return; }
+    setStatus("sending");
+    try {
+      const r = await fetch("/api/playbook-lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, email, website_hp: hp }) });
+      if (r.status === 400) { const d = await r.json().catch(() => ({})); setError(d.error || "Please check your details."); setStatus("idle"); return; }
+    } catch { /* still unlock */ }
+    try { localStorage.setItem("rb_pe_playbook", "1"); } catch { /* ignore */ }
+    setStatus("done");
+    window.open(playbook.pdf, "_blank", "noopener");
+  };
+  return (
+    <section id="playbook" className="scroll-mt-24 border-b border-neutral-200 py-16 md:py-20">
+      <div className="mx-auto grid max-w-6xl gap-10 px-6 sm:px-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+        <div className="overflow-hidden rounded-[5px] border border-neutral-200 bg-neutral-950">
+          <img src={playbook.cover} alt={`${playbook.title} cover`} loading="lazy" className="block w-full" />
+        </div>
+        <div>
+          <p className="mb-3 text-xs font-semibold text-[#FE6B00]">Free playbook</p>
+          <h2 className="font-display text-3xl font-normal leading-tight tracking-tight md:text-4xl">{playbook.title}</h2>
+          <p className="mt-4 font-body text-sm font-medium leading-relaxed text-neutral-500 sm:text-base">{playbook.description}</p>
+          <ul className="mt-5 space-y-2.5">
+            {playbook.points.map((point) => (
+              <li key={point} className="flex items-start gap-2.5 font-body text-sm font-semibold text-neutral-700"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-[#FE6B00]" />{point}</li>
+            ))}
+          </ul>
+          {status === "done" ? (
+            <a href={playbook.pdf} target="_blank" rel="noopener" className="mt-7 inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#FE6B00] px-6 text-sm font-medium text-white hover:bg-[#e96000]">
+              Open the playbook <ArrowUpRight size={15} />
+            </a>
+          ) : (
+            <form onSubmit={submit} className="mt-7 grid gap-3 sm:grid-cols-2" noValidate>
+              <input aria-label="Your name" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} className="h-11 rounded-lg border border-neutral-300 bg-white px-4 font-body text-sm outline-none focus:border-[#FE6B00]" />
+              <input aria-label="Work email" type="email" placeholder="Work email" value={email} onChange={(e) => setEmail(e.target.value)} className="h-11 rounded-lg border border-neutral-300 bg-white px-4 font-body text-sm outline-none focus:border-[#FE6B00]" />
+              <input tabIndex={-1} autoComplete="off" aria-hidden="true" value={hp} onChange={(e) => setHp(e.target.value)} className="hidden" name="website_hp" />
+              <button type="submit" disabled={status === "sending"} className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#FE6B00] px-6 text-sm font-medium text-white hover:bg-[#e96000] disabled:opacity-70 sm:col-span-2">
+                {status === "sending" ? "Sending…" : "Get the playbook"} <ArrowDown size={15} />
+              </button>
+              {error && <p className="font-body text-xs font-semibold text-red-600 sm:col-span-2">{error}</p>}
+              <p className="font-body text-xs font-medium text-neutral-400 sm:col-span-2">18 pages. No spam, just the playbook.</p>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -381,6 +443,8 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
             </div>
           </section>
         )}
+
+        {content.playbook && <PlaybookGate playbook={content.playbook} />}
 
         <section className="py-16 md:py-20">
           <div className="mx-auto max-w-6xl px-6 sm:px-8">
