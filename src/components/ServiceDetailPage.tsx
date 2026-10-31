@@ -51,6 +51,16 @@ export type ServicePageContent = {
     pattern: string;
     description: string;
   }[];
+  educationWork?: {
+    client: string;
+    logoSrc: string;
+    title: string;
+    description: string;
+    caseStudyHref: string;
+    videos: { title: string; audience: string; duration: string; src: string; poster: string }[];
+    quote: { text: string; name: string; role: string; img: string };
+  };
+  faqs?: { question: string; answer: string }[];
   launchFormats?: {
     label: string;
     title: string;
@@ -101,6 +111,34 @@ const LaunchVideoPreview = ({ title, youtubeId }: { title: string; youtubeId: st
         </button>
       )}
     </div>
+  );
+};
+
+const EducationVideo = ({ video }: { video: { title: string; audience: string; duration: string; src: string; poster: string } }) => {
+  const [playing, setPlaying] = useState(false);
+  return (
+    <article className="min-w-0">
+      <div className="relative aspect-video w-full overflow-hidden rounded-[5px] bg-neutral-950">
+        {playing ? (
+          <video src={video.src} poster={video.poster} controls autoPlay playsInline preload="metadata" aria-label={video.title} className="absolute inset-0 h-full w-full object-contain" />
+        ) : (
+          <button type="button" onClick={() => setPlaying(true)} aria-label={`Play ${video.title}`} className="group absolute inset-0 h-full w-full">
+            <img src={video.poster} alt={video.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]" />
+            <span className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/20" />
+            <span className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-[5px] bg-[#FE6B00] text-white transition-transform group-hover:scale-105">
+              <Play size={22} fill="currentColor" className="ml-0.5" />
+            </span>
+          </button>
+        )}
+      </div>
+      <div className="mt-3 flex items-start justify-between gap-4 px-0.5">
+        <div>
+          <h3 className="font-body text-sm font-semibold tracking-tight text-neutral-900">{video.title}</h3>
+          <p className="mt-0.5 font-body text-xs font-medium text-neutral-500">{video.audience}</p>
+        </div>
+        <span className="shrink-0 font-body text-xs font-medium text-neutral-400">{video.duration}</span>
+      </div>
+    </article>
   );
 };
 
@@ -314,6 +352,36 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
           </section>
         )}
 
+        {content.educationWork && (
+          <section className="border-b border-neutral-200 py-16 md:py-20">
+            <div className="mx-auto max-w-6xl px-6 sm:px-8">
+              <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                <div className="max-w-2xl">
+                  <p className="mb-3 text-xs font-semibold text-[#FE6B00]">Our education work</p>
+                  <h2 className="font-display text-3xl font-normal leading-tight tracking-tight md:text-4xl">{content.educationWork.title}</h2>
+                  <p className="mt-4 max-w-xl font-body text-sm font-medium leading-relaxed text-neutral-500 sm:text-base">{content.educationWork.description}</p>
+                </div>
+                <img src={content.educationWork.logoSrc} alt={`${content.educationWork.client} logo`} className="h-8 w-auto self-start object-contain md:self-end" />
+              </div>
+              <div className="grid grid-cols-1 gap-x-7 gap-y-9 md:grid-cols-2">
+                {content.educationWork.videos.map((video) => <EducationVideo key={video.src} video={video} />)}
+              </div>
+              <div className="mt-12 grid gap-6 rounded-[5px] border border-neutral-200 bg-neutral-50/40 p-7 md:grid-cols-[1fr_auto] md:items-center md:p-8">
+                <figure className="flex items-start gap-5">
+                  <img src={content.educationWork.quote.img} alt={content.educationWork.quote.name} loading="lazy" className="h-14 w-14 shrink-0 rounded-[5px] object-cover grayscale" />
+                  <div>
+                    <blockquote className="font-display text-xl font-normal leading-snug tracking-tight text-neutral-900 md:text-2xl">“{content.educationWork.quote.text}”</blockquote>
+                    <figcaption className="mt-3 font-body text-xs font-semibold text-neutral-500">{content.educationWork.quote.name} · {content.educationWork.quote.role}</figcaption>
+                  </div>
+                </figure>
+                <a href={content.educationWork.caseStudyHref} className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-5 text-sm font-medium text-neutral-900 transition-colors hover:border-[#FE6B00] hover:text-[#FE6B00]">
+                  Read the {content.educationWork.client} case study <ArrowUpRight size={15} />
+                </a>
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="py-16 md:py-20">
           <div className="mx-auto max-w-6xl px-6 sm:px-8">
             <div className="mb-9 max-w-2xl">
@@ -363,6 +431,28 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
                       <p className="mt-3 font-body text-sm font-medium leading-relaxed text-neutral-500">{example.description}</p>
                     </div>
                   </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {content.faqs && (
+          <section className="border-t border-neutral-200 py-16 md:py-20">
+            <div className="mx-auto grid max-w-6xl gap-10 px-6 sm:px-8 md:grid-cols-[0.8fr_1.2fr]">
+              <div>
+                <p className="mb-3 text-xs font-semibold text-[#FE6B00]">Questions</p>
+                <h2 className="font-display text-3xl font-normal leading-tight tracking-tight md:text-4xl">Before you book a call.</h2>
+              </div>
+              <div className="border-t border-neutral-200">
+                {content.faqs.map((faq) => (
+                  <details key={faq.question} className="group border-b border-neutral-200 py-5">
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-body text-base font-semibold text-neutral-900">
+                      {faq.question}
+                      <span className="text-lg font-normal text-[#FE6B00] transition-transform group-open:rotate-45">+</span>
+                    </summary>
+                    <p className="mt-3 max-w-xl font-body text-sm font-medium leading-relaxed text-neutral-500">{faq.answer}</p>
+                  </details>
                 ))}
               </div>
             </div>
