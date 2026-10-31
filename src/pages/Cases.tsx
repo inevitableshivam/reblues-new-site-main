@@ -14,6 +14,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 const caseStudies = [
   {
+    company: "Pillir",
+    title: "Four SAP workflows. One prompt each.",
+    cover: "/cases/pillir-case-study-cover.jpg",
+    pdf: "/cases/pillir-case-study.pdf",
+    logo: "/logos/pillir.png",
+    tags: ["Product education", "ICP tutorial library", "Enterprise AI"],
+  },
+  {
     company: "10x",
     title: "Launching 10x. 791K views on X.",
     cover: "/cases/10x-case-study-cover.jpg",

@@ -38,6 +38,31 @@ const content: ServicePageContent = {
       audiences: ["Finance", "Marketing", "Operations"],
     },
   ],
+  educationWork: {
+    client: "Pillir",
+    logoSrc: "/logos/pillir.png",
+    title: "Four SAP workflows. One prompt each.",
+    description: "For Pillir, we built a workflow tutorial library: each film shows Claude doing real SAP work through Pillir for one audience, from a single prompt to a finished report. Three of them are the demos on Pillir's homepage.",
+    caseStudyHref: "/cases",
+    videos: [
+      { title: "Customer risk manager", audience: "For finance and credit teams", duration: "1:30", src: "/education/pillir-customer-risk.mp4", poster: "/education/pillir-customer-risk-poster.jpg" },
+      { title: "Delayed production orders", audience: "For plant and production planners", duration: "1:37", src: "/education/pillir-delayed-production.mp4", poster: "/education/pillir-delayed-production-poster.jpg" },
+      { title: "Stuck purchase requisitions", audience: "For procurement leads", duration: "1:31", src: "/education/pillir-stuck-requisitions.mp4", poster: "/education/pillir-stuck-requisitions-poster.jpg" },
+      { title: "Stockout risk", audience: "For supply chain managers", duration: "0:55", src: "/education/pillir-stockout-risk.mp4", poster: "/education/pillir-stockout-risk-poster.jpg" },
+    ],
+    quote: {
+      text: "The quality of work was outstanding. Their team understood our product deeply and delivered beyond expectations.",
+      name: "Vijay Raghavan",
+      role: "Director of India Marketing & Operations, Pillir",
+      img: "/testimonials/vijayraghvan.png",
+    },
+  },
+  faqs: [
+    { question: "What do you need from our team?", answer: "A walkthrough of the product, access to a demo or staging account, and one person who can review scripts and cuts. We handle the rest." },
+    { question: "Does this work for complex or enterprise products?", answer: "Yes. That's where education matters most. Our Pillir library teaches AI agents running real SAP workflows, a long way from a simple signup flow." },
+    { question: "Academy or ICP library: which do we need?", answer: "If users get lost learning the product, start with an Academy. If different buyers can't see what it does for them, start with an ICP library. Many teams end up with both." },
+    { question: "Where do the videos live?", answer: "Wherever your users learn: onboarding, in-product tours, your help centre, YouTube, sales follow-ups and customer success. We deliver the formats each place needs." },
+  ],
   processTitle: "A complete path from discovery to integration.",
   steps: [
     { title: "Discovery", description: "We learn your product, audience and onboarding goals, then identify where users hesitate, get confused or leave." },
