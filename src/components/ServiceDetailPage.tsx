@@ -507,10 +507,12 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
                 </div>
                 <img src={content.educationWork.logoSrc} alt={`${content.educationWork.client} logo`} className="h-8 w-auto self-start object-contain md:self-end" />
               </div>
-              <div className="grid grid-cols-1 gap-x-7 gap-y-9 md:grid-cols-2">
-                {content.educationWork.videos.map((video) => <EducationVideo key={video.src} video={video} />)}
-              </div>
-              <figure className="mt-12 flex items-start gap-5 border-t border-neutral-200 pt-8">
+              {content.educationWork.videos.length > 0 && (
+                <div className="grid grid-cols-1 gap-x-7 gap-y-9 md:grid-cols-2">
+                  {content.educationWork.videos.map((video) => <EducationVideo key={video.src} video={video} />)}
+                </div>
+              )}
+              <figure className={`flex items-start gap-5 ${content.educationWork.videos.length > 0 ? "mt-12 border-t border-neutral-200 pt-8" : "mt-2"}`}>
                 <img src={content.educationWork.quote.img} alt={content.educationWork.quote.name} loading="lazy" className="h-14 w-14 shrink-0 rounded-[5px] object-cover grayscale" />
                 <div>
                   <blockquote className="font-display text-xl font-normal leading-snug tracking-tight text-neutral-900 md:text-2xl">“{content.educationWork.quote.text}”</blockquote>
