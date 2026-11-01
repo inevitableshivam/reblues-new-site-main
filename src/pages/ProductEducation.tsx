@@ -42,7 +42,7 @@ const content: ServicePageContent = {
     client: "Pillir",
     logoSrc: "/logos/pillir.png",
     title: "A product video library for Pillir.",
-    description: "We produced 6 videos for Pillir: four SAP workflow tutorials, a product launch film and a campaign video. Each tutorial shows Claude doing one real SAP task through Pillir, from prompt to finished report. Three are the demos on Pillir's homepage.",
+    description: "We produced 6 videos for Pillir: four SAP workflow tutorials, a product launch film and a campaign video. Each tutorial shows Claude doing one real SAP task through Pillir, from prompt to finished report.",
     caseStudyHref: "/cases",
     caseStudy: {
       title: "6 videos for Pillir's product library.",
@@ -51,12 +51,7 @@ const content: ServicePageContent = {
       pdf: "/cases/pillir-case-study.pdf",
       tags: ["Product education", "Workflow tutorials", "Launch film"],
     },
-    videos: [
-      { title: "Customer risk manager", audience: "For finance and credit teams", duration: "1:30", src: "/education/pillir-customer-risk.mp4", poster: "/education/pillir-customer-risk-poster.jpg" },
-      { title: "Delayed production orders", audience: "For plant and production planners", duration: "1:37", src: "/education/pillir-delayed-production.mp4", poster: "/education/pillir-delayed-production-poster.jpg" },
-      { title: "Stuck purchase requisitions", audience: "For procurement leads", duration: "1:31", src: "/education/pillir-stuck-requisitions.mp4", poster: "/education/pillir-stuck-requisitions-poster.jpg" },
-      { title: "Stockout risk", audience: "For supply chain managers", duration: "0:55", src: "/education/pillir-stockout-risk.mp4", poster: "/education/pillir-stockout-risk-poster.jpg" },
-    ],
+    videos: [],
     quote: {
       text: "The quality of work was outstanding. Their team understood our product deeply and delivered beyond expectations.",
       name: "Vijay Raghavan",

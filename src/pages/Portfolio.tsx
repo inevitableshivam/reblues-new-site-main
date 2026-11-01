@@ -41,9 +41,6 @@ const founderPosts = [
 ];
 
 const projects: Project[] = [
-  { id: "e1", title: "Pillir — Customer Risk Manager", youtubeId: "o9Jbhh95_KI", company: "Pillir", category: "education", logo: "/logos/pillir.png" },
-  { id: "e2", title: "Pillir — Delayed Production Orders", youtubeId: "-UIS4BhvHfs", company: "Pillir", category: "education", logo: "/logos/pillir.png" },
-  { id: "e3", title: "Pillir — Stuck Purchase Requisitions", youtubeId: "TGFSfkRBvck", company: "Pillir", category: "education", logo: "/logos/pillir.png" },
   { id: "1", title: "LeadCRM.io — Product Demo", youtubeId: "VJSUUDlAVBk", company: "LeadCRM.io", category: "demo", logo: "/logos/leadcrm_io.png" },
   { id: "2", title: "Lemmino — Product Demo", youtubeId: "cygElzZGQRg", company: "Lemmino", category: "demo", logo: "/logos/lemmino.png" },
   { id: "10", title: "Arqia — Product Demo", youtubeId: "KJnGpIkucdg", company: "Arqia", category: "demo", logo: "/logos/arqia.png" },
@@ -62,7 +59,6 @@ const projects: Project[] = [
 ];
 
 const categories: { id: Category; label: string }[] = [
-  { id: "education", label: "Product Education" },
   { id: "demo", label: "Demo Videos" },
   { id: "narrative", label: "Brand Narrative Videos" },
   { id: "explainer", label: "Explainer Videos" },
