@@ -41,9 +41,16 @@ const content: ServicePageContent = {
   educationWork: {
     client: "Pillir",
     logoSrc: "/logos/pillir.png",
-    title: "Four SAP workflows. One prompt each.",
-    description: "For Pillir, we built a workflow tutorial library: each film shows Claude doing real SAP work through Pillir for one audience, from a single prompt to a finished report. Three of them are the demos on Pillir's homepage.",
+    title: "A product video library for Pillir.",
+    description: "We produced 6 videos for Pillir: four SAP workflow tutorials, a product launch film and a campaign video. Each tutorial shows Claude doing one real SAP task through Pillir, from prompt to finished report. Three are the demos on Pillir's homepage.",
     caseStudyHref: "/cases",
+    caseStudy: {
+      title: "6 videos for Pillir's product library.",
+      subtitle: "Four workflow tutorials, a launch film and a campaign video for an AI execution platform on SAP.",
+      cover: "/cases/pillir-case-study-cover.jpg",
+      pdf: "/cases/pillir-case-study.pdf",
+      tags: ["Product education", "Workflow tutorials", "Launch film"],
+    },
     videos: [
       { title: "Customer risk manager", audience: "For finance and credit teams", duration: "1:30", src: "/education/pillir-customer-risk.mp4", poster: "/education/pillir-customer-risk-poster.jpg" },
       { title: "Delayed production orders", audience: "For plant and production planners", duration: "1:37", src: "/education/pillir-delayed-production.mp4", poster: "/education/pillir-delayed-production-poster.jpg" },
@@ -58,7 +65,7 @@ const content: ServicePageContent = {
     },
   },
   playbook: {
-    title: "The Product Education Playbook",
+    title: "Product Education Playbook",
     description: "How we map your ICP, features and roadmap into a video library, the two ways we produce it, and where each video earns its keep.",
     cover: "/playbook/cover.jpg",
     pdf: "/playbook/reblues-product-education-playbook.pdf",
