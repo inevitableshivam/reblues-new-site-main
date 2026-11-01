@@ -1,5 +1,7 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { ArrowDown, ArrowRight, ArrowUpRight, Eye, Play } from "lucide-react";
+import { lazy, Suspense, useEffect, useRef, useState, type FormEvent } from "react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Eye, Play, X } from "lucide-react";
+
+const CasePdfViewer = lazy(() => import("./CasePdfViewer"));
 import AsciiDockingStationLeft from "./AsciiDockingStationLeft";
 import AsciiSpaceshipRight from "./AsciiSpaceshipRight";
 import AsciiCockpitLeft from "./AsciiCockpitLeft";
@@ -57,6 +59,7 @@ export type ServicePageContent = {
     title: string;
     description: string;
     caseStudyHref: string;
+    caseStudy?: { title: string; subtitle: string; cover: string; pdf: string; tags: string[] };
     videos: { title: string; audience: string; duration: string; src: string; poster: string }[];
     quote: { text: string; name: string; role: string; img: string };
   };
@@ -144,6 +147,85 @@ const EducationVideo = ({ video }: { video: { title: string; audience: string; d
 };
 
 type PlaybookContent = { title: string; description: string; cover: string; pdf: string; points: string[] };
+
+const CaseStudyEmbed = ({ client, logoSrc, study }: { client: string; logoSrc: string; study: { title: string; subtitle: string; cover: string; pdf: string; tags: string[] } }) => {
+  const [open, setOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    dialog.showModal();
+    return () => {
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-haspopup="dialog"
+        aria-label={`View the ${client} case study`}
+        className="group mt-12 grid w-full overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50 text-left transition-colors duration-300 hover:border-[#FE6B00]/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FE6B00] md:grid-cols-[minmax(0,1.08fr)_minmax(290px,0.92fr)]"
+      >
+        <div className="aspect-video w-full self-center overflow-hidden bg-neutral-100">
+          <img src={study.cover} alt={`${client} case study cover`} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.012]" />
+        </div>
+        <div className="flex flex-col justify-between gap-6 border-t border-neutral-200 p-6 sm:p-7 md:border-l md:border-t-0 lg:p-8">
+          <div className="flex items-center justify-between gap-4">
+            <img src={logoSrc} alt={`${client} logo`} className="h-6 w-auto object-contain" />
+            <span className="text-xs font-semibold text-[#FE6B00]">Case study</span>
+          </div>
+          <div>
+            <h3 className="max-w-md font-body text-[24px] font-semibold leading-[1.18] tracking-[-0.035em] sm:text-[27px]">{study.title}</h3>
+            <p className="mt-3 max-w-md font-body text-sm font-medium leading-relaxed text-neutral-500">{study.subtitle}</p>
+            <div className="mt-5 flex flex-wrap gap-1.5">
+              {study.tags.map((tag) => (
+                <span key={tag} className="inline-flex items-center gap-1.5 rounded-full border border-[#FE6B00]/25 bg-[#fff8f3] px-2.5 py-1 text-[10px] font-semibold leading-none text-[#b64c00]">
+                  <span aria-hidden="true" className="h-1 w-1 rounded-full bg-[#FE6B00]" />{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-neutral-900 transition-colors group-hover:text-[#FE6B00]">Read the case study <ArrowUpRight size={15} /></span>
+        </div>
+      </button>
+
+      {open && (
+        <dialog
+          ref={dialogRef}
+          onClose={() => setOpen(false)}
+          onClick={(event) => { if (event.target === event.currentTarget) setOpen(false); }}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowLeft") dialogRef.current?.querySelector<HTMLButtonElement>('button[aria-label="Previous page"]')?.click();
+            if (event.key === "ArrowRight") dialogRef.current?.querySelector<HTMLButtonElement>('button[aria-label="Next page"]')?.click();
+          }}
+          aria-label={`${client} case study`}
+          className="fixed inset-0 m-auto flex h-[min(94dvh,1000px)] w-[min(96vw,1600px)] max-w-none flex-col overflow-hidden rounded-xl border border-neutral-300 bg-[#e9e9e9] p-0 shadow-2xl backdrop:bg-neutral-950/80 max-sm:h-dvh max-sm:w-screen max-sm:rounded-none"
+        >
+          <div className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-neutral-200 bg-white px-4 sm:px-6">
+            <p className="truncate text-sm font-semibold text-neutral-900">{client} <span className="font-normal text-neutral-500">/ Case study</span></p>
+            <div className="flex items-center gap-1">
+              <a href={study.pdf} download className="hidden h-9 items-center rounded-full px-3 text-xs font-medium text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-950 sm:inline-flex">Download PDF</a>
+              <button type="button" onClick={() => setOpen(false)} aria-label="Close case study" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#FE6B00]">
+                <X size={20} strokeWidth={1.8} />
+              </button>
+            </div>
+          </div>
+          <Suspense fallback={<div className="flex flex-1 items-center justify-center text-sm text-neutral-500">Loading case study…</div>}>
+            <CasePdfViewer study={{ company: client, pdf: study.pdf }} />
+          </Suspense>
+        </dialog>
+      )}
+    </>
+  );
+};
 
 const PlaybookGate = ({ playbook }: { playbook: PlaybookContent }) => {
   const [name, setName] = useState("");
@@ -428,18 +510,20 @@ const ServiceDetailPage = ({ content }: { content: ServicePageContent }) => {
               <div className="grid grid-cols-1 gap-x-7 gap-y-9 md:grid-cols-2">
                 {content.educationWork.videos.map((video) => <EducationVideo key={video.src} video={video} />)}
               </div>
-              <div className="mt-12 grid gap-6 rounded-[5px] border border-neutral-200 bg-neutral-50/40 p-7 md:grid-cols-[1fr_auto] md:items-center md:p-8">
-                <figure className="flex items-start gap-5">
-                  <img src={content.educationWork.quote.img} alt={content.educationWork.quote.name} loading="lazy" className="h-14 w-14 shrink-0 rounded-[5px] object-cover grayscale" />
-                  <div>
-                    <blockquote className="font-display text-xl font-normal leading-snug tracking-tight text-neutral-900 md:text-2xl">“{content.educationWork.quote.text}”</blockquote>
-                    <figcaption className="mt-3 font-body text-xs font-semibold text-neutral-500">{content.educationWork.quote.name} · {content.educationWork.quote.role}</figcaption>
-                  </div>
-                </figure>
-                <a href={content.educationWork.caseStudyHref} className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-5 text-sm font-medium text-neutral-900 transition-colors hover:border-[#FE6B00] hover:text-[#FE6B00]">
+              <figure className="mt-12 flex items-start gap-5 border-t border-neutral-200 pt-8">
+                <img src={content.educationWork.quote.img} alt={content.educationWork.quote.name} loading="lazy" className="h-14 w-14 shrink-0 rounded-[5px] object-cover grayscale" />
+                <div>
+                  <blockquote className="font-display text-xl font-normal leading-snug tracking-tight text-neutral-900 md:text-2xl">“{content.educationWork.quote.text}”</blockquote>
+                  <figcaption className="mt-3 font-body text-xs font-semibold text-neutral-500">{content.educationWork.quote.name} · {content.educationWork.quote.role}</figcaption>
+                </div>
+              </figure>
+              {content.educationWork.caseStudy ? (
+                <CaseStudyEmbed client={content.educationWork.client} logoSrc={content.educationWork.logoSrc} study={content.educationWork.caseStudy} />
+              ) : (
+                <a href={content.educationWork.caseStudyHref} className="mt-8 inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-5 text-sm font-medium text-neutral-900 transition-colors hover:border-[#FE6B00] hover:text-[#FE6B00]">
                   Read the {content.educationWork.client} case study <ArrowUpRight size={15} />
                 </a>
-              </div>
+              )}
             </div>
           </section>
         )}
