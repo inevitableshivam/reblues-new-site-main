@@ -1,5 +1,4 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
 
 const root = new URL("../", import.meta.url);
 const dist = new URL("../dist/", import.meta.url);
@@ -15,11 +14,13 @@ const pages = [
   ["blog", "Blog: Software Video Production | Reblues", "Practical notes on launch films, product education and video production for software companies."],
   ["blog/how-to-plan-a-product-education-library", "How to Plan a Product Education Video Library | Reblues", "Plan useful product tutorials around user goals, role-specific workflows and a library you can maintain as the software changes."],
   ["blog/what-a-good-launch-film-needs", "How to Make a Software Launch Film | Reblues", "A practical framework for turning a complicated software product into one clear launch story."],
+  ["blog/launch-film-vs-product-demo", "Launch Film vs Product Demo for SaaS | Reblues", "Learn when software companies should use a launch film, product demo or tutorial, and how the videos work together."],
+  ["blog/what-goes-into-a-software-video-storyboard", "Software Video Storyboard: What to Review | Reblues", "See what a software video storyboard should explain before animation begins: narrative, product actions, timing and review decisions."],
 ];
 
 for (const [slug, title, description] of pages) {
   const url = `${site}/${slug}`;
-  const html = template
+  let html = template
     .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
     .replace(/(<meta name="description" content=")[^"]*("\s*\/?\s*>)/, `$1${description}$2`)
     .replace(/(<link rel="canonical" href=")[^"]*("\s*\/?\s*>)/, `$1${url}$2`)
@@ -28,6 +29,21 @@ for (const [slug, title, description] of pages) {
     .replace(/(<meta name="twitter:title" content=")[^"]*("\s*\/?\s*>)/, `$1${title}$2`)
     .replace(/(<meta property="og:description" content=")[^"]*("\s*\/?\s*>)/, `$1${description}$2`)
     .replace(/(<meta name="twitter:description" content=")[^"]*("\s*\/?\s*>)/, `$1${description}$2`);
+  if (slug.startsWith("blog/") && slug !== "blog/") {
+    const source = readFileSync(new URL(`../src/content/blog/${slug.slice(5)}.md`, import.meta.url), "utf8");
+    const published = source.match(/^date:\s*(\d{4}-\d{2}-\d{2})/m)?.[1];
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: title.replace(/ \| Reblues$/, ""),
+      description,
+      mainEntityOfPage: url,
+      ...(published ? { datePublished: published } : {}),
+      author: { "@type": "Organization", name: "Reblues" },
+      publisher: { "@type": "Organization", name: "Reblues", url: site },
+    };
+    html = html.replace("</head>", `<script type="application/ld+json">${JSON.stringify(schema)}</script></head>`);
+  }
   const directory = new URL(`${slug}/`, dist);
   mkdirSync(directory, { recursive: true });
   writeFileSync(new URL("index.html", directory), html);

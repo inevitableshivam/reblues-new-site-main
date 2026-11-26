@@ -9,6 +9,8 @@
     { "source": "/blog", "destination": "/blog/index.html" },
     { "source": "/blog/how-to-plan-a-product-education-library", "destination": "/blog/how-to-plan-a-product-education-library/index.html" },
     { "source": "/blog/what-a-good-launch-film-needs", "destination": "/blog/what-a-good-launch-film-needs/index.html" },
+    { "source": "/blog/launch-film-vs-product-demo", "destination": "/blog/launch-film-vs-product-demo/index.html" },
+    { "source": "/blog/what-goes-into-a-software-video-storyboard", "destination": "/blog/what-goes-into-a-software-video-storyboard/index.html" },
     {
       "source": "/(.*)",
       "destination": "/index.html"
