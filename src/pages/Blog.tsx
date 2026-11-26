@@ -13,7 +13,7 @@ export default function Blog() {
       <section aria-label="Articles">
         {blogEntries.map((entry) => <Link key={entry.slug} to={`/blog/${entry.slug}`} className="group grid gap-5 border-b border-neutral-200 py-7 transition-colors sm:grid-cols-[160px_minmax(0,1fr)_28px] sm:items-center sm:py-8">
           <div className="flex aspect-[16/10] items-center justify-center overflow-hidden rounded-[5px] bg-[#fff3e9] text-[#FE6B00]">
-            {entry.cover ? <img src={entry.cover} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" /> : <span className="font-body text-4xl font-semibold transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110">R.</span>}
+            {entry.cover ? <img src={entry.cover} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" /> : <img src="/reblues-blog-dither.svg" alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" />}
           </div>
           <div>
             <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-medium text-neutral-500"><span>{entry.category}</span><span className="text-neutral-300">•</span><time dateTime={entry.date}>{entry.date}</time><span className="text-neutral-300">•</span><span>{entry.readingTime}</span></div>
