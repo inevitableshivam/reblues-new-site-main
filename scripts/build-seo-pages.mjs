@@ -1,9 +1,61 @@
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
+import { createElement } from "react";
+import { renderToString } from "react-dom/server";
+import { Route, Routes } from "react-router-dom";
+import { StaticRouter } from "react-router-dom/server.js";
+import { createServer } from "vite";
 
-const root = new URL("../", import.meta.url);
 const dist = new URL("../dist/", import.meta.url);
 const template = readFileSync(new URL("index.html", dist), "utf8");
 const site = "https://www.rebluesmedia.com";
+const assets = readdirSync(new URL("assets/", dist));
+const routes = {
+  "": "Index",
+  "launch-films": "LaunchFilms",
+  "product-education": "ProductEducation",
+  "ad-campaigns": "AdCampaigns",
+  portfolio: "Portfolio",
+  process: "Process",
+  cases: "Cases",
+  blog: "Blog",
+};
+
+// react-pdf reads DOMMatrix while its module loads, even though the closed case
+// study viewer does not use it during server rendering.
+globalThis.DOMMatrix ??= class DOMMatrix {};
+const vite = await createServer({
+  appType: "custom",
+  logLevel: "error",
+  server: { middlewareMode: true, hmr: false },
+  optimizeDeps: { noDiscovery: true },
+});
+
+function productionAssetPaths(html) {
+  return html.replace(/(["'])\/src\/assets\/([^"']+)\1/g, (match, quote, source) => {
+    const dot = source.lastIndexOf(".");
+    const base = source.slice(0, dot);
+    const ext = source.slice(dot);
+    const built = assets.find((asset) => asset.startsWith(`${base}-`) && asset.endsWith(ext));
+    if (!built) throw new Error(`No production asset for ${source}`);
+    return `${quote}/assets/${built}${quote}`;
+  });
+}
+
+async function renderRoute(slug) {
+  const moduleName = routes[slug] ?? "BlogPost";
+  const path = slug.startsWith("blog/") ? "/blog/:slug" : `/${slug}`;
+  const location = `/${slug}`;
+  const { default: Page } = await vite.ssrLoadModule(`/src/pages/${moduleName}.tsx`);
+  const markup = renderToString(createElement(
+    StaticRouter, { location },
+    createElement(Routes, null, createElement(Route, {
+      path,
+      element: createElement(Page),
+    })),
+  ));
+  if (!/<h1\b/i.test(markup)) throw new Error(`Missing heading for ${location}`);
+  return productionAssetPaths(markup);
+}
 const pages = [
   ["launch-films", "Launch Films for Software Companies | Reblues", "Launch films and funding announcement videos for software companies. Reblues handles strategy, scripting, animation and launch support for X and LinkedIn."],
   ["product-education", "Product Education Videos for SaaS | Reblues", "Help users reach value faster with product tutorials, onboarding videos and role-specific education. Explore Reblues’ product education process."],
@@ -28,7 +80,8 @@ for (const [slug, title, description] of pages) {
     .replace(/(<meta property="og:title" content=")[^"]*("\s*\/?\s*>)/, `$1${title}$2`)
     .replace(/(<meta name="twitter:title" content=")[^"]*("\s*\/?\s*>)/, `$1${title}$2`)
     .replace(/(<meta property="og:description" content=")[^"]*("\s*\/?\s*>)/, `$1${description}$2`)
-    .replace(/(<meta name="twitter:description" content=")[^"]*("\s*\/?\s*>)/, `$1${description}$2`);
+    .replace(/(<meta name="twitter:description" content=")[^"]*("\s*\/?\s*>)/, `$1${description}$2`)
+    .replace('<div id="root"></div>', `<div id="root">${await renderRoute(slug)}</div>`);
   if (slug.startsWith("blog/") && slug !== "blog/") {
     const source = readFileSync(new URL(`../src/content/blog/${slug.slice(5)}.md`, import.meta.url), "utf8");
     const published = source.match(/^date:\s*(\d{4}-\d{2}-\d{2})/m)?.[1];
@@ -48,6 +101,12 @@ for (const [slug, title, description] of pages) {
   mkdirSync(directory, { recursive: true });
   writeFileSync(new URL("index.html", directory), html);
 }
+
+writeFileSync(new URL("index.html", dist), template.replace(
+  '<div id="root"></div>',
+  `<div id="root">${await renderRoute("")}</div>`,
+));
+await vite.close();
 
 const urls = [site + "/", ...pages.map(([slug]) => `${site}/${slug}`)];
 writeFileSync(new URL("sitemap.xml", dist), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(url => `  <url><loc>${url}</loc></url>`).join("\n")}\n</urlset>\n`);
