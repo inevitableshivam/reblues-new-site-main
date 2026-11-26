@@ -4,6 +4,8 @@ date: 2026-10-11
 excerpt: A practical framework for turning a complicated software product into one clear launch story.
 category: Launch films
 readingTime: 4 min read
+cover: https://i.ytimg.com/vi/cxLNAHH8-K0/maxresdefault.jpg
+video: https://www.youtube-nocookie.com/embed/cxLNAHH8-K0
 draft: false
 ---
 
@@ -68,3 +70,5 @@ Before production ends, prepare the surrounding launch material:
 If someone remembers only one thing after watching, it should be the product’s clearest advantage—not the number of transitions in the edit.
 
 The best test is simple: show the film to someone unfamiliar with the product, then ask them what changed for the customer. If their answer matches the launch message, the film is doing its job.
+
+For a real campaign, see how the story developed across the [10x launch films](https://www.reblueslaunch.com/journal/10x-three-launches-791k-views). You can also explore [our launch film approach](/launch-films) and the [production process](/process).
