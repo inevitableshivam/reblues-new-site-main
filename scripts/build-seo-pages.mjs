@@ -54,7 +54,12 @@ async function renderRoute(slug) {
     })),
   ));
   if (!/<h1\b/i.test(markup)) throw new Error(`Missing heading for ${location}`);
-  return productionAssetPaths(markup);
+  // The ASCII illustrations are decorative and can add hundreds of kilobytes
+  // of repeated characters to the initial response. React restores them when
+  // the interactive page loads; leave the useful page copy in the HTML.
+  const leanMarkup = markup.replace(/(<pre\b[^>]*>)([\s\S]*?)(<\/pre>)/g,
+    (match, open, content, close) => content.length > 1000 ? `${open}${close}` : match);
+  return productionAssetPaths(leanMarkup);
 }
 const pages = [
   ["launch-films", "Launch Films for Software Companies | Reblues", "Launch films and funding announcement videos for software companies. Reblues handles strategy, scripting, animation and launch support for X and LinkedIn."],
