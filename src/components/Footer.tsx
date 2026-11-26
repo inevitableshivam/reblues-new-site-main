@@ -42,6 +42,7 @@ const Footer = ({ onBookCall, eyebrow = "Ready when you are", headline = "Let’
         )}
         <nav aria-label="Footer" className={`${onBookCall ? "mt-11 md:mt-12" : ""} flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-medium text-white/75`}>
           <Link to="/cases" className="transition-colors hover:text-white">Case studies</Link>
+          <Link to="/blog" className="transition-colors hover:text-white">Blog</Link>
         </nav>
         <div className="mt-6 flex items-center justify-center gap-6">
             {socialIcons.map((icon) => (

@@ -12,3 +12,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /funding-announcement
+Disallow: /directory
+
+Sitemap: https://www.rebluesmedia.com/sitemap.xml

@@ -16,6 +16,8 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 const Cases = lazy(() => import("./pages/Cases"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -32,6 +34,8 @@ const App = () => (
           <Route path="/process" element={<Process />} />
           <Route path="/funding-announcement" element={<FundingAnnouncement />} />
           <Route path="/cases" element={<Suspense fallback={<div className="min-h-screen bg-white" />}><Cases /></Suspense>} />
+          <Route path="/blog" element={<Suspense fallback={<div className="min-h-screen bg-white" />}><Blog /></Suspense>} />
+          <Route path="/blog/:slug" element={<Suspense fallback={<div className="min-h-screen bg-white" />}><BlogPost /></Suspense>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

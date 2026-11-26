@@ -1,7 +1,16 @@
 {
   "rewrites": [
+    { "source": "/launch-films", "destination": "/launch-films/index.html" },
+    { "source": "/product-education", "destination": "/product-education/index.html" },
+    { "source": "/ad-campaigns", "destination": "/ad-campaigns/index.html" },
+    { "source": "/portfolio", "destination": "/portfolio/index.html" },
+    { "source": "/process", "destination": "/process/index.html" },
+    { "source": "/cases", "destination": "/cases/index.html" },
+    { "source": "/blog", "destination": "/blog/index.html" },
+    { "source": "/blog/how-to-plan-a-product-education-library", "destination": "/blog/how-to-plan-a-product-education-library/index.html" },
+    { "source": "/blog/what-a-good-launch-film-needs", "destination": "/blog/what-a-good-launch-film-needs/index.html" },
     {
-      "source": "/((?!api/).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
